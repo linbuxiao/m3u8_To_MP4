@@ -130,6 +130,8 @@ class MultiThreadsUriCrawler(v2_abstract_task_processor.AbstractUriCrawler):
             logging.info('decrypt and dump segments...')
             for key, segment_url, encrypted_data in key_url_encrypted_data_triple:
                 file_name = path_helper.resolve_file_name_by_uri(segment_url)
+                if len(file_name) > 100:
+                    file_name = file_name[:100]
                 file_path = os.path.join(self.tmpdir, file_name)
 
                 if key is not None:
