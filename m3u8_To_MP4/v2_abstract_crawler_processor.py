@@ -168,13 +168,14 @@ class AbstractCrawler(object):
         with open(self.segment_path_recipe, 'w', encoding='utf8') as fw:
             for _, segment in key_segment_pairs:
                 file_name = path_helper.resolve_file_name_by_uri(segment)
+                if len(file_name) > 100:
+                    file_name = file_name[:100]
                 segment_file_path = os.path.join(self.tmpdir, file_name)
 
                 fw.write("file '{}'\n".format(segment_file_path))
 
     def _merge_to_mp4_by_ffmpeg(self):
         logging.info("merging segments...")
-
         # copy mode
         merge_cmd = "ffmpeg " +\
                     "-y -f concat -threads {} -safe 0 ".format(get_core_count()) +\
